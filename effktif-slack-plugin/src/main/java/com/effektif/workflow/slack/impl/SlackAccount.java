@@ -13,30 +13,29 @@
  * limitations under the License. */
 package com.effektif.workflow.slack.impl;
 
-
 /**
  * @author Tom Baeyens
  */
 public class SlackAccount {
 
-    protected String id;
-    protected SlackService slackService;
-    protected String username;
-    protected String password;
+  protected String id;
+  protected SlackService slackService;
+  protected String username;
+  protected String password;
 
-    public SlackAccount(String id) {
-        this.id = id;
-    }
+  public SlackAccount(String id) {
+    this.id = id;
+  }
 
-    public void createPost(String channel, String message) {
-        slackService.createPost(username, password, channel, message);
-    }
+  public void createPost(String channel, String message) {
+    slackService.createPost(username, password, channel, message);
+  }
 
-    public String getId() {
-        return this.id;
-    }
+  public String getId() {
+    return this.id;
+  }
 
-    public void setId(String id) {
-        this.id = id;
-    }
+  public void setId(String id) {
+    this.id = id;
+  }
 }

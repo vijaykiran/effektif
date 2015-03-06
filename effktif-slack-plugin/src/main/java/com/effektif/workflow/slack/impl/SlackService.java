@@ -19,26 +19,25 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 /**
  * @author Tom Baeyens
  */
 public class SlackService {
 
-    private static final Logger log = LoggerFactory.getLogger(SlackService.class);
+  private static final Logger log = LoggerFactory.getLogger(SlackService.class);
 
-    Map<String, SlackAccount> slackAccounts = new HashMap<>();
+  Map<String, SlackAccount> slackAccounts = new HashMap<>();
 
-    public SlackAccount findAccount(String slackAccountId) {
-        return slackAccounts.get(slackAccountId);
-    }
+  public SlackAccount findAccount(String slackAccountId) {
+    return slackAccounts.get(slackAccountId);
+  }
 
-    public void addAccount(SlackAccount slackAccount) {
-        slackAccounts.put(slackAccount.getId(), slackAccount);
-        slackAccount.slackService = this;
-    }
+  public void addAccount(SlackAccount slackAccount) {
+    slackAccounts.put(slackAccount.getId(), slackAccount);
+    slackAccount.slackService = this;
+  }
 
-    public void createPost(String username, String password, String channel, String message) {
-        log.debug("creating post on channel '" + channel + "': " + message);
-    }
+  public void createPost(String username, String password, String channel, String message) {
+    log.debug("creating post on channel '" + channel + "': " + message);
+  }
 }

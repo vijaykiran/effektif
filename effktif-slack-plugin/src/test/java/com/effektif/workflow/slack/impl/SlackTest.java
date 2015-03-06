@@ -21,37 +21,28 @@ import com.effektif.workflow.impl.activity.ActivityTypeService;
 import com.effektif.workflow.impl.memory.TestConfiguration;
 import org.junit.Test;
 
-
 /**
  * @author Tom Baeyens
  */
 public class SlackTest {
 
-    @Test
-    public void testSlack() {
-        SlackService slackService = new SlackService();
-        slackService.addAccount(new SlackAccount("slackaccountid"));
+  @Test public void testSlack() {
+    SlackService slackService = new SlackService();
+    slackService.addAccount(new SlackAccount("slackaccountid"));
 
-        TestConfiguration configuration = new TestConfiguration();
-        configuration.getBrewery().ingredient(slackService);
+    TestConfiguration configuration = new TestConfiguration();
+    configuration.getBrewery().ingredient(slackService);
 
-        ActivityTypeService activityTypeService = configuration.get(ActivityTypeService.class);
-        activityTypeService.registerActivityType(new SlackPostImpl());
+    ActivityTypeService activityTypeService = configuration.get(ActivityTypeService.class);
+    activityTypeService.registerActivityType(new SlackPostImpl());
 
-        WorkflowEngine workflowEngine = configuration.getWorkflowEngine();
-        // TaskService taskService = configuration.getTaskService();
+    WorkflowEngine workflowEngine = configuration.getWorkflowEngine();
+    // TaskService taskService = configuration.getTaskService();
 
-        Workflow workflow = new Workflow()
-                .activity("1", new SlackPost()
-                        .slackAccountId("slackaccountid")
-                        .channel("channel1")
-                        .message("message1")
-                        .name("post"));
+    Workflow workflow = new Workflow().activity("1", new SlackPost().slackAccountId("slackaccountid").channel("channel1").message("message1").name("post"));
 
-        Deployment deployment = workflowEngine.deployWorkflow(workflow);
+    Deployment deployment = workflowEngine.deployWorkflow(workflow);
 
-        workflowEngine.start(new TriggerInstance()
-                        .workflowId(deployment.getWorkflowId())
-        );
-    }
+    workflowEngine.start(new TriggerInstance().workflowId(deployment.getWorkflowId()));
+  }
 }

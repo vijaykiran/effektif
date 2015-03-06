@@ -21,37 +21,34 @@ import com.effektif.workflow.impl.activity.AbstractActivityType;
 import com.effektif.workflow.impl.workflow.ActivityImpl;
 import com.effektif.workflow.impl.workflowinstance.ActivityInstanceImpl;
 
-
 /**
  * @author Tom Baeyens
  */
 public class SlackPostImpl extends AbstractActivityType<SlackPost> {
 
-    private static final Logger log = LoggerFactory.getLogger(SlackPostImpl.class);
+  private static final Logger log = LoggerFactory.getLogger(SlackPostImpl.class);
 
-    SlackService slackService;
+  SlackService slackService;
 
-    public SlackPostImpl() {
-        super(SlackPost.class);
+  public SlackPostImpl() {
+    super(SlackPost.class);
+  }
+
+  @Override public void parse(ActivityImpl activityImpl, SlackPost slackPost, WorkflowParser parser) {
+    super.parse(activityImpl, slackPost, parser);
+
+    log.debug("parsing slack post");
+
+    slackService = parser.getConfiguration(SlackService.class);
+
+    if (false) {
+      parser.addError("Something is wrong with this slackPost");
     }
+  }
 
-    @Override
-    public void parse(ActivityImpl activityImpl, SlackPost slackPost, WorkflowParser parser) {
-        super.parse(activityImpl, slackPost, parser);
-
-        log.debug("parsing slack post");
-
-        slackService = parser.getConfiguration(SlackService.class);
-
-        if (false) {
-            parser.addError("Something is wrong with this slackPost");
-        }
-    }
-
-    @Override
-    public void execute(ActivityInstanceImpl activityInstance) {
-        SlackAccount slackAccount = slackService.findAccount(activity.getSlackAccountId());
-        slackAccount.createPost(activity.getChannel(), activity.getMessage());
-        activityInstance.onwards();
-    }
+  @Override public void execute(ActivityInstanceImpl activityInstance) {
+    SlackAccount slackAccount = slackService.findAccount(activity.getSlackAccountId());
+    slackAccount.createPost(activity.getChannel(), activity.getMessage());
+    activityInstance.onwards();
+  }
 }
