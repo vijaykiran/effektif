@@ -11,7 +11,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License. */
-package com.effektif.workflow.impl.slack;
+package com.effektif.workflow.slack.impl;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,21 +24,21 @@ import org.slf4j.LoggerFactory;
  * @author Tom Baeyens
  */
 public class SlackService {
-  
-  private static final Logger log = LoggerFactory.getLogger(SlackService.class);
-  
-  Map<String,SlackAccount> slackAccounts = new HashMap<>();
 
-  public SlackAccount findAccount(String slackAccountId) {
-    return slackAccounts.get(slackAccountId);
-  }
+    private static final Logger log = LoggerFactory.getLogger(SlackService.class);
 
-  public void addAccount(SlackAccount slackAccount) {
-    slackAccounts.put(slackAccount.getId(), slackAccount);
-    slackAccount.slackService = this;
-  }
+    Map<String, SlackAccount> slackAccounts = new HashMap<>();
 
-  public void createPost(String username, String password, String channel, String message) {
-    log.debug("creating post on channel '"+channel+"': "+message);
-  }
+    public SlackAccount findAccount(String slackAccountId) {
+        return slackAccounts.get(slackAccountId);
+    }
+
+    public void addAccount(SlackAccount slackAccount) {
+        slackAccounts.put(slackAccount.getId(), slackAccount);
+        slackAccount.slackService = this;
+    }
+
+    public void createPost(String username, String password, String channel, String message) {
+        log.debug("creating post on channel '" + channel + "': " + message);
+    }
 }

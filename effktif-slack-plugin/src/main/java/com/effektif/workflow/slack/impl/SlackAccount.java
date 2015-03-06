@@ -11,32 +11,32 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License. */
-package com.effektif.workflow.impl.slack;
-
+package com.effektif.workflow.slack.impl;
 
 
 /**
  * @author Tom Baeyens
  */
 public class SlackAccount {
-  
-  protected String id;
-  protected SlackService slackService;
-  protected String username;
-  protected String password;
-  
-  public SlackAccount(String id) {
-    this.id = id;
-  }
 
-  public void createPost(String channel, String message) {
-    slackService.createPost(username, password, channel, message);
-  }
+    protected String id;
+    protected SlackService slackService;
+    protected String username;
+    protected String password;
 
-  public String getId() {
-    return this.id;
-  }
-  public void setId(String id) {
-    this.id = id;
-  }
+    public SlackAccount(String id) {
+        this.id = id;
+    }
+
+    public void createPost(String channel, String message) {
+        slackService.createPost(username, password, channel, message);
+    }
+
+    public String getId() {
+        return this.id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 }
