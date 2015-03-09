@@ -1,8 +1,9 @@
 package com.effektif.example.cli;
 
-import com.effektif.workflow.api.task.Task;
-import com.effektif.workflow.api.workflow.Workflow;
-import com.effektif.workflow.api.workflowinstance.WorkflowInstance;
+import com.effektif.example.cli.command.Command;
+import com.effektif.example.cli.command.CommandLine;
+import com.effektif.workflow.api.Configuration;
+import com.effektif.workflow.impl.memory.MemoryConfiguration;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -18,14 +19,14 @@ public class Application implements Runnable {
 
   private final BufferedReader in;
   private final PrintWriter out;
-  private final WorkflowEngineFacade engine;
+  private final Configuration configuration;
 
   protected final static String PROMPT = "> ";
 
   public Application(BufferedReader in, PrintWriter out) {
     this.in = in;
     this.out = out;
-    engine = new WorkflowEngineFacade();
+    configuration = new MemoryConfiguration();
   }
 
   /**
@@ -42,6 +43,9 @@ public class Application implements Runnable {
    */
   @Override
   public void run() {
+    // Deploy the workflow on start-up.
+    Command.DEPLOY.execute(null, configuration, out);
+
     out.println("Command line workflow example (enter ‘help’ to list commends).");
     while (true) {
       out.print("> ");
@@ -51,10 +55,10 @@ public class Application implements Runnable {
         commandLineString = in.readLine().trim();
         if (!commandLineString.isEmpty()) {
           final CommandLine commandLine = CommandLine.parse(commandLineString);
-          if (commandLine.is(Command.QUIT)) {
+          if (commandLine.isQuit()) {
             break;
           }
-          execute(commandLine);
+          commandLine.execute(configuration, out);
         }
       } catch (IllegalArgumentException e) {
         unknownCommand(commandLineString);
@@ -62,83 +66,10 @@ public class Application implements Runnable {
         throw new RuntimeException(e);
       }
     }
-//    out.close();
-  }
-
-
-  private void execute(CommandLine commandLine) {
-    switch (commandLine.getCommand()) {
-      case COMPLETE:
-        complete(commandLine.getArguments()[0]);
-        break;
-      case HELP:
-        help();
-        break;
-      case START:
-        start(commandLine.getArguments()[0]);
-        break;
-      case TASKS:
-        listTasks();
-        break;
-      case WORKFLOWS:
-        listWorkflows();
-        break;
-      default:
-        unknownCommand(commandLine.getCommand().toString());
-    }
-  }
-
-
-  // COMMANDS
-
-  /**
-   * Marks the task with the given ID as complete.
-   */
-  private void complete(String taskId) {
-    engine.complete(taskId);
-  }
-
-  private void help() {
-    out.println("Commands:");
-    out.println("  complete [ID]   Mark the task with the given ID complete");
-    out.println("  help            List commands");
-    out.println("  start [ID]      Start the workflow with the given ID");
-    out.println("  tasks           List outstanding tasks (ID and name)");
-    out.println("  workflows       List deployed workflows (ID)");
-    out.println("  quit            Exit command line");
-    out.println("");
-  }
-
-  private void listTasks() {
-    out.println("Tasks:");
-    for (Task task : engine.tasks()) {
-      out.println("  " + task.getId() + ": " + task.getName());
-    }
-    out.println();
-  }
-
-  private void listWorkflows() {
-    out.println("Workflows:");
-    for (Workflow workflow : engine.workflows()) {
-      out.println("  " + workflow.getSourceWorkflowId());
-    }
-    out.println();
-  }
-
-  private void start(String workflowId) {
-    WorkflowInstance startedWorkflowInstance = engine.startWorkflow(workflowId);
-    if (startedWorkflowInstance == null) {
-      out.println("Workflow not found");
-    }
-    else {
-      out.println("Workflow started");
-    }
-    out.println();
   }
 
   private void unknownCommand(String commandLine) {
     out.println("Unknown command: " + commandLine);
     out.println();
   }
-
 }
