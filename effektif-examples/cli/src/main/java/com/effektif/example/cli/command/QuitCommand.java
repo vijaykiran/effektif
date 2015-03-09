@@ -5,7 +5,7 @@ import com.effektif.workflow.api.Configuration;
 import java.io.PrintWriter;
 
 /**
- * Created by pedro on 09-03-2015.
+ * Outputs a quit message.
  */
 public class QuitCommand implements CommandImpl {
 

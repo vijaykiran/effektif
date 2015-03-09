@@ -12,8 +12,8 @@ import java.io.PrintWriter;
 
 /**
  * A workflow engine example with a command-line interface.
- * <p/>
- * Based on <a href="https://github.com/codurance/task-list">Task List</a> by Codurance.
+ *
+ * <p>Based on <a href="https://github.com/codurance/task-list">Task List</a> by Codurance.</p>
  */
 public class Application implements Runnable {
 

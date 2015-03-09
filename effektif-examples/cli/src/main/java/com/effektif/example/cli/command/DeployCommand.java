@@ -8,7 +8,7 @@ import com.effektif.workflow.api.model.Deployment;
 import java.io.PrintWriter;
 
 /**
- * Created by pedro on 09-03-2015.
+ * Deploys a workflow to the engine.
  */
 public class DeployCommand implements CommandImpl {
 
