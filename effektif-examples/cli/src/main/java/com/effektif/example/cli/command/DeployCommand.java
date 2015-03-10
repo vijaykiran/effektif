@@ -15,7 +15,7 @@ public class DeployCommand implements CommandImpl {
   @Override
   public void execute(CommandLine command, Configuration configuration, PrintWriter out) {
     final WorkflowEngine engine = configuration.getWorkflowEngine();
-    Deployment deployment = engine.deployWorkflow(SoftwareRelease.workflow()).checkNoErrorsAndNoWarnings();
+    Deployment deployment = engine.deployWorkflow(SoftwareRelease.workflow).checkNoErrorsAndNoWarnings();
     System.out.println("Deployed workflow " + deployment.getWorkflowId());
   }
 }

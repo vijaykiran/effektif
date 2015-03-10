@@ -9,16 +9,14 @@ import com.effektif.workflow.api.workflow.Workflow;
  */
 public class SoftwareRelease {
 
-  public static Workflow workflow() {
-    return new Workflow()
-      .sourceWorkflowId("release")
-      .activity("Move open issues", new UserTask()
-        .transitionToNext())
-      .activity("Check continuous integration", new UserTask()
-        .transitionToNext())
-      .activity("Notify community", new EmailTask()
-        .to("releases@example.com")
-        .subject("New version released")
-        .bodyText("Enjoy!"));
-  }
+  public static Workflow workflow = new Workflow()
+    .sourceWorkflowId("release")
+    .activity("Move open issues", new UserTask()
+      .transitionToNext())
+    .activity("Check continuous integration", new UserTask()
+      .transitionToNext())
+    .activity("Notify community", new EmailTask()
+      .to("releases@example.com")
+      .subject("New version released")
+      .bodyText("Enjoy!"));
 }
