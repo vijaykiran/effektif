@@ -21,6 +21,7 @@ public class Application implements Runnable {
   private final PrintWriter out;
   private final Configuration configuration;
 
+  protected static final String WELCOME = "Command line workflow example (enter ‘help’ to list commends).";
   protected final static String PROMPT = "> ";
 
   public Application(BufferedReader in, PrintWriter out) {
@@ -45,8 +46,8 @@ public class Application implements Runnable {
   public void run() {
     // Deploy the workflow on start-up.
     Command.DEPLOY.execute(null, configuration, out);
+    out.println(WELCOME);
 
-    out.println("Command line workflow example (enter ‘help’ to list commends).");
     while (true) {
       out.print("> ");
       out.flush();

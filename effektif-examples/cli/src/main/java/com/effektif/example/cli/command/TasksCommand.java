@@ -33,17 +33,17 @@ public class TasksCommand implements CommandImpl {
       for (ActivityInstance activity : workflowInstance.getActivityInstances()) {
         if (!activity.isEnded()) {
           final Task task = taskService.findTaskById(activity.getTaskId());
-          out.println("  " + task.getId() + "(" + activity.getTaskId() + "): " + task.getName());
+          out.println("  " + task.getId() + ": " + task.getName());
           // TODO Figure out why activity.getTaskId() != task.getId()
         }
       }
     }
     out.println();
 
-    out.println("All tasks:");
-    for (Task task : taskService.findTasks(new TaskQuery())) {
-      out.println("  " + task.getId() + ": " + task.getName());
-    }
-    out.println();
+//    out.println("All tasks:");
+//    for (Task task : taskService.findTasks(new TaskQuery())) {
+//      out.println("  " + task.getId() + ": " + task.getName());
+//    }
+//    out.println();
   }
 }

@@ -22,8 +22,6 @@ public class StartCommand implements CommandImpl {
       if (workflow.getSourceWorkflowId().equals(sourceWorkflowId)) {
         final TriggerInstance trigger = new TriggerInstance().workflowId(workflow.getId());
         engine.start(trigger);
-        out.println("Workflow started");
-        out.println();
         return;
       }
     }

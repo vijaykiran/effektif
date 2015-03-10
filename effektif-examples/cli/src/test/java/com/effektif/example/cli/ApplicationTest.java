@@ -9,12 +9,14 @@ import java.io.PrintWriter;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
 
 import static org.junit.Assert.assertEquals;
 
 /**
- *
+ * Tests the command line application by controlling the intput and output streams.
  */
 public class ApplicationTest {
 
@@ -49,12 +51,44 @@ public class ApplicationTest {
   }
 
   @Test(timeout = 1000)
-  public void testWorkflowList() throws IOException {
-    execute("list");
+  public void test() throws IOException {
+
+    // Start-up and deploy
+    readLines(Application.WELCOME);
+
+    // List workflows
+    execute("workflows");
     readLines(
-      "Workflows:",
-      "  Release",
+      "Deployed workflows:",
+      "  release",
+      "",
+      "Running workflows:",
       "");
+
+    // List tasks (none)
+    execute("tasks");
+    readLines("Open tasks:", "");
+
+    // Start workflow
+    execute("start release");
+
+    // List tasks (first task)
+    execute("tasks");
+    readLines(
+      "Open tasks:",
+      "  1: Move open issues",
+      "");
+
+    // Complete first task
+    execute("complete 1");
+
+    // List tasks (first task)
+    execute("tasks");
+    readLines(
+      "Open tasks:",
+      "  2: Check continuous integration",
+      "");
+
     execute("quit");
   }
 
