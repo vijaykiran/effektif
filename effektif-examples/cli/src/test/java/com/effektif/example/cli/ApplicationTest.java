@@ -9,9 +9,7 @@ import java.io.PrintWriter;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.FixMethodOrder;
 import org.junit.Test;
-import org.junit.runners.MethodSorters;
 
 import static org.junit.Assert.assertEquals;
 
@@ -47,6 +45,7 @@ public class ApplicationTest {
     }
 
     application.interrupt();
+    // TODO Figure out why the application thread doesn’t finish running after the QUIT command.
 //    throw new IllegalStateException("The application is still running.");
   }
 
@@ -92,11 +91,17 @@ public class ApplicationTest {
     execute("quit");
   }
 
+  /**
+   * Executes a command by consuming the prompt and sending the command to the input.
+   */
   private void execute(String command) throws IOException {
     read(Application.PROMPT);
-    write(command);
+    inWriter.println(command);
   }
 
+  /**
+   * Reads text from the command line output and checks that it is the expected string.
+   */
   private void read(String expectedOutput) throws IOException {
     int length = expectedOutput.length();
     char[] buffer = new char[length];
@@ -104,14 +109,13 @@ public class ApplicationTest {
     assertEquals(String.valueOf(buffer), expectedOutput);
   }
 
+  /**
+   * Reads multiple lines from the output, to check multi-line command output.
+   */
   private void readLines(String... expectedOutput) throws IOException {
     for (String line : expectedOutput) {
       read(line + System.lineSeparator());
     }
-  }
-
-  private void write(String input) {
-    inWriter.println(input);
   }
 
 }
