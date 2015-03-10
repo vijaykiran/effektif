@@ -53,7 +53,12 @@ public class ApplicationTest {
   public void testWorkflows() throws IOException {
     readLines(Application.WELCOME);
     execute("workflows");
-    readLines("Deployed workflows:", "  release", "", "Running workflows:", "");
+    readLines(
+      "Deployed workflows:",
+      "  release",
+      "",
+      "Running workflows:",
+      "");
     execute("quit");
   }
 
@@ -74,7 +79,7 @@ public class ApplicationTest {
     execute("tasks");
     readLines(
       "Open tasks:",
-      "  1: Move open issues",
+      "  1: Move open issues (release)",
       "");
 
     // Complete first task
@@ -84,7 +89,7 @@ public class ApplicationTest {
     execute("tasks");
     readLines(
       "Open tasks:",
-      "  2: Check continuous integration",
+      "  2: Check continuous integration (release)",
       "");
 
     execute("quit");

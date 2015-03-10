@@ -20,7 +20,7 @@ public class TasksCommand implements CommandImpl {
     final TaskService taskService = configuration.getTaskService();
     for (Task task : taskService.findTasks(new TaskQuery())) {
       if (!task.isCompleted()) {
-        out.println("  " + task.getId() + ": " + task.getName());
+        out.println(String.format("  %s: %s (%s)", task.getId(), task.getName(), task.getSourceWorkflowId()));
       }
     }
     out.println();
