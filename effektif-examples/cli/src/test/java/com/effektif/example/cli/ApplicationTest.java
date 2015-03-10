@@ -50,12 +50,8 @@ public class ApplicationTest {
   }
 
   @Test(timeout = 1000)
-  public void test() throws IOException {
-
-    // Start-up and deploy
+  public void testWorkflows() throws IOException {
     readLines(Application.WELCOME);
-
-    // List workflows
     execute("workflows");
     readLines(
       "Deployed workflows:",
@@ -63,12 +59,20 @@ public class ApplicationTest {
       "",
       "Running workflows:",
       "");
+    execute("quit");
+  }
 
-    // List tasks (none)
+  @Test(timeout = 1000)
+  public void testTasks() throws IOException {
+    readLines(Application.WELCOME);
     execute("tasks");
     readLines("Open tasks:", "");
+    execute("quit");
+  }
 
-    // Start workflow
+  @Test(timeout = 1000)
+  public void test() throws IOException {
+    readLines(Application.WELCOME);
     execute("start release");
 
     // List tasks (first task)
