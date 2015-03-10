@@ -53,12 +53,7 @@ public class ApplicationTest {
   public void testWorkflows() throws IOException {
     readLines(Application.WELCOME);
     execute("workflows");
-    readLines(
-      "Deployed workflows:",
-      "  release",
-      "",
-      "Running workflows:",
-      "");
+    readLines("Deployed workflows:", "  release", "", "Running workflows:", "");
     execute("quit");
   }
 
@@ -110,7 +105,7 @@ public class ApplicationTest {
     int length = expectedOutput.length();
     char[] buffer = new char[length];
     outReader.read(buffer, 0, length);
-    assertEquals(String.valueOf(buffer), expectedOutput);
+    assertEquals(expectedOutput, String.valueOf(buffer));
   }
 
   /**

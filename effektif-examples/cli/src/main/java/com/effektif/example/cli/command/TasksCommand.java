@@ -1,14 +1,11 @@
 package com.effektif.example.cli.command;
 
 import com.effektif.workflow.api.Configuration;
-import com.effektif.workflow.api.query.WorkflowInstanceQuery;
-import com.effektif.workflow.api.workflowinstance.ActivityInstance;
-import com.effektif.workflow.api.workflowinstance.WorkflowInstance;
-import com.effektif.workflow.impl.WorkflowInstanceStore;
-import com.effektif.workflow.impl.workflowinstance.WorkflowInstanceImpl;
+import com.effektif.workflow.api.task.Task;
+import com.effektif.workflow.api.task.TaskQuery;
+import com.effektif.workflow.api.task.TaskService;
 
 import java.io.PrintWriter;
-import java.util.List;
 
 /**
  * Returns a list of open tasks for the running workflows.
@@ -17,18 +14,28 @@ public class TasksCommand implements CommandImpl {
 
   @Override
   public void execute(CommandLine command, Configuration configuration, PrintWriter out) {
-    final WorkflowInstanceStore instanceStore = configuration.get(WorkflowInstanceStore.class);
-    final List<WorkflowInstanceImpl> instances = instanceStore.findWorkflowInstances(new WorkflowInstanceQuery());
 
+    // TODO Work out why this lists both tasks 1 and 2, after 1 is completed, and not just 2.
     out.println("Open tasks:");
-    for (WorkflowInstanceImpl instance : instances) {
-      WorkflowInstance workflowInstance = instance.toWorkflowInstance();
-      for (ActivityInstance activity : workflowInstance.getActivityInstances()) {
-        if (!activity.isEnded()) {
-          out.println("  " + activity.getTaskId() + ": " + activity.getActivityId());
-        }
+    final TaskService taskService = configuration.getTaskService();
+    for (Task task : taskService.findTasks(new TaskQuery())) {
+      if (!task.isCompleted()) {
+        out.println("  " + task.getId() + ": " + task.getName());
       }
     }
     out.println();
+
+//    final WorkflowInstanceStore instanceStore = configuration.get(WorkflowInstanceStore.class);
+//    final List<WorkflowInstanceImpl> instances = instanceStore.findWorkflowInstances(new WorkflowInstanceQuery());
+//    out.println("Open tasks:");
+//    for (WorkflowInstanceImpl instance : instances) {
+//      WorkflowInstance workflowInstance = instance.toWorkflowInstance();
+//      for (ActivityInstance activity : workflowInstance.getActivityInstances()) {
+//        if (!activity.isEnded()) {
+//          out.println("  " + activity.getTaskId() + ": " + activity.getActivityId());
+//        }
+//      }
+//    }
+//    out.println();
   }
 }
